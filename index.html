@@ -11,54 +11,276 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: url(arcadenoe.jpeg) no-repeat center center fixed;
+            /* Fundo atualizado com a nova imagem */
+            background: url('arcadenoe.jpeg') no-repeat center center fixed;
             background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
+            min-height: 100vh;
+            position: relative; /* Necessário para o posicionamento absoluto do container */
+        }
+
+        /* Container reposicionado para o lado direito */
+        .container {
+            position: absolute;
+            top: 14%; /* Posiciona abaixo da data */
+            right: 5%; /* Posiciona do lado direito */
+            width: 100%;
+            max-width: 320px; /* Largura ajustada para caber no espaço */
+            padding: 10px;
+            box-sizing: border-box;
         }
 
         ul {
             list-style: none;
             padding: 0;
-            margin-top: 60px;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
 
         li {
             text-align: center;
             margin: auto;
-            margin-bottom: 10px;
-            margin-top: -50px;
-            width: 420px;
-            padding: 15px;
-            /*font-size: 22px;
-            font-weight: bold;
-            color: #2E9B97; /* Verde do cartaz */
-            text-shadow: none;
-            background-color: rgba(255,255,255,0.25);
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.85);
             border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,.35);
-            transition: .25s;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
             font-family: "Anton", sans-serif;
             letter-spacing: 1px;
             color: #2F9D97;
-            -webkit-text-stroke: 1px #2F9D97;
-           
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            box-sizing: border-box;
         }
 
             li:hover {
                 background-color: #E6C08A;
                 color: #ffffff;
-                cursor: pointer;
+                transform: scale(1.02);
             }
+
+        /* Estilos do Popup (Modal) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background-color: #fff;
+            width: 90%;
+            max-width: 500px;
+            max-height: 85vh;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            background-color: #2F9D97;
+            color: white;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .modal-header h2 {
+                margin: 0;
+                font-size: 20px;
+            }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+        }
+
+        .lyrics {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #333;
+            white-space: pre-line;
+            text-align: center;
+        }
+
+        /* Ajuste para telas menores (celulares) */
+        @media (max-width: 768px) {
+            .container {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-    <ul>
-        <li title="Ao pressionar aqui, você terá acesso as letras e aos áudios do nosso musical! Vamos estudar?"; 
-            onclick="window.location.href='https://docs.google.com/document/d/e/2PACX-1vRnk0tZ1Ve61f7ci_NMgR3-blqcSo0lL2IMYP9sNtMESRi3rN54LwHYs-cjPKyV3Q/pub'">
-            MUSICAL A ARCA DE NOÉ
-        </li>
-    </ul>
+    <div class="container">
+        <ul>
+            <li onclick="abrirModal('noe')">NOÉ</li>
+            <li onclick="abrirModal('arca')">A ARCA</li>
+            <li onclick="abrirModal('diluvio')">O DILÚVIO</li>
+            <li onclick="abrirModal('dentro')">DENTRO DA ARCA</li>
+            <li onclick="abrirModal('aguas')">AS ÁGUAS BAIXARAM</li>
+            <li onclick="abrirModal('saindo')">SAINDO DA ARCA</li>
+            <li onclick="abrirModal('alianca')">UMA NOVA ALIANÇA</li>
+        </ul>
+    </div>
+
+    <!-- Estrutura do Popup -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Título da Música</h2>
+                <button class="close-btn" onclick="fecharModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <audio id="audio-player" controls>
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+                <div class="lyrics" id="modal-lyrics">
+                    Letra da música aparecerá aqui...
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados das músicas referenciando arquivos locais
+        const musicas = {
+            'noe': {
+                titulo: "Noé",
+                audioSrc: "noe.mpeg",
+                letra: `Havia um homem na terra temente ao Senhor,
+                            Havia um homem na terra temente ao Senhor;
+                            andava sempre com Deus o criador.
+                            Embora a terra vivesse com violência e desamor
+                            Aprovação ele achou aos olhos de Deus, Senhor.
+                            E Noé Justo e sincero, é Noé Homem de Deus.
+                            E Noé da paz e do amor.
+                            E Noé andando com o Senhor.`
+            },
+            'arca': {
+                titulo: "A Arca",
+                audioSrc: "arca.mpeg",
+                letra: `Faze pra ti uma arca, arca de madeira.
+                            Nela entrarás seguro: é o diluvio que chega!
+                            Faze também a janela e a porta ao lado,
+                            Pois eu já trago o diluvio
+                            Sobre toda a terra.
+                            E toda espécie entrará, macho e fêmea entrará,
+                            E tua família entrará e fecharás a porta da arca conforme eu ordenar!`
+            },
+            'diluvio': {
+                titulo: "O Dilúvio",
+                audioSrc: "diluvio.mpeg",
+                letra: `Entraram na arca como Deus ordenou,
+                            Fecharam a porta como Deus como Deus ordenou (2X)
+                            E a porta por fora o Senhor a fechou.
+                            Entraram na arca como Deus ordenou,
+                            Fecharam a porta como Deus como Deus ordenou
+                            E a porta por fora o Senhor a fechou.
+                            E choveu, choveu forte chuva, choveu.
+                            Quarenta dias sem parar.
+                            E choveu, choveu forte chuva choveu;
+                            E na face da terra nem vida nem lugar pra morar
+                            E na face da terra nem vida nem lugar pra morar`
+            },
+            'dentro': {
+                titulo: "Dentro da Arca",
+                audioSrc: "dentro.mpeg",
+                letra: `Juntinhos, lado a lado, estamos todos reunidos dentro da arca;
+                            Somos os bichos. De dois em dois, como é divertido!
+                            Pode cair água; estamos todos protegidos!`
+            },
+            'aguas': {
+                titulo: "As Águas Baixaram",
+                audioSrc: "aguas.mpeg",
+                letra: `Soprou um vento sobre a terra. Soprou o vento do Senhor. Secou-se a fonte do abismo e a chuva se “aquietou”.
+                            Soprou um vento sobre a terra. Soprou o vento do Senhor. Secou-se a fonte do abismo e a chuva se “aquietou”.
+                            Baixou as águas, secou a terra. Da arca, só o tempo da espera. No bico, a pomba traz certeza da missão e da promessa, vem a salvação!`
+            },
+            'saindo': {
+                titulo: "Saindo da Arca",
+                audioSrc: "saindo.mpeg",
+                letra: `Da arca saindo, Noé, com ele saindo os animais e também sua família vendo tantas maravilhas, doce paz e harmonia, bençãos vindas lá do Pai.
+                            Da arca saindo, Noé, com ele saindo os animais e também sua família vendo tantas maravilhas, doce paz e harmonia, bençãos vindas lá do Pai.
+
+                            E assim Deus ordenou: enche a terra com amor, se espalhe e multiplique cada povo, cada gente, é a benção do Senhor.
+                            E assim ergueu Noé um altar ao seu Senhor, e a Deus ofereceu um sacrifício, um louvor em oração ao Pai de amor! De amor.`
+            },
+            'alianca': {
+                titulo: "Uma Nova Aliança",
+                audioSrc: "alianca.mpeg",
+                letra: `Olhem pra cima e vejam, vocês, quantas cores se formam já. 
+                        É o meu rosto sorrindo outra vez, minha alegria a derramar!
+                        Chuva da graça, paz e perdão; é o arco-íris, é confirmação.
+                        Deixe nascer, sintam essa luz do arco-íris brilhando em cada coração.
+                        Chuva da graça, paz e perdão; é o arco-íris, é confirmação.
+                        Deixe nascer, sintam essa luz do arco-íris brilhando em cada coração.`
+            }
+        };
+
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalLyrics = document.getElementById('modal-lyrics');
+        const audioPlayer = document.getElementById('audio-player');
+
+        function abrirModal(idMusica) {
+            const musica = musicas[idMusica];
+
+            modalTitle.innerText = musica.titulo;
+            modalLyrics.innerText = musica.letra;
+            audioPlayer.src = musica.audioSrc;
+
+            modal.style.display = 'flex';
+        }
+
+        function fecharModal() {
+            modal.style.display = 'none';
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
+        }
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                fecharModal();
+            }
+        }
+    </script>
 
 </body>
 </html>
