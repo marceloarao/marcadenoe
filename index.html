@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,28 +11,25 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            /* Fundo atualizado com a nova imagem */
             background: url('arcadenoe.jpeg') no-repeat center center fixed;
             background-size: cover;
+            -webkit-background-size: cover;
+            -moz-background-size: cover;
+            -o-background-size: cover;
             min-height: 100vh;
-            position: relative;
+            position: relative; /* Necessário para o posicionamento absoluto do container */
         }
 
+        /* Container reposicionado para o lado direito */
         .container {
             position: absolute;
-            top: 14%;
-            right: 5%;
+            top: 14%; /* Posiciona abaixo da data */
+            right: 5%; /* Posiciona do lado direito */
             width: 100%;
-            max-width: 340px;
+            max-width: 320px; /* Largura ajustada para caber no espaço */
             padding: 10px;
-        }
-
-        .titulo-lista {
-            text-align: center;
-            color: white;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
-            margin-bottom: 15px;
-            font-size: 19px;
-            font-weight: bold;
+            box-sizing: border-box;
         }
 
         ul {
@@ -40,35 +38,41 @@
             margin: 0;
             display: flex;
             flex-direction: column;
-            gap: 10px;
-            max-height: 65vh;
-            overflow-y: auto;
+            gap: 12px;
         }
 
         li {
             text-align: center;
-            padding: 14px;
-            background: rgba(255,255,255,0.92);
+            margin: auto;
+            width: 100%;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.85);
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+            transition: 0.3s;
             font-family: "Anton", sans-serif;
+            letter-spacing: 1px;
             color: #2F9D97;
             font-weight: bold;
             font-size: 16px;
             cursor: pointer;
-            transition: 0.3s;
+            box-sizing: border-box;
         }
 
             li:hover {
-                background: #E6C08A;
-                color: white;
+                background-color: #E6C08A;
+                color: #ffffff;
                 transform: scale(1.02);
             }
 
+        /* Estilos do Popup (Modal) */
         .modal-overlay {
             position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.75);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
             display: none;
             justify-content: center;
             align-items: center;
@@ -76,19 +80,19 @@
         }
 
         .modal-content {
-            background: #fff;
+            background-color: #fff;
             width: 90%;
-            max-width: 680px;
-            max-height: 92vh;
+            max-width: 500px;
+            max-height: 85vh;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.6);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
         }
 
         .modal-header {
-            background: #2F9D97;
+            background-color: #2F9D97;
             color: white;
             padding: 15px;
             display: flex;
@@ -96,194 +100,187 @@
             align-items: center;
         }
 
+            .modal-header h2 {
+                margin: 0;
+                font-size: 20px;
+            }
+
         .close-btn {
             background: none;
             border: none;
             color: white;
-            font-size: 32px;
-            cursor: pointer;
-        }
-
-        .modal-body {
-            padding: 15px;
-            flex: 1;
-            overflow-y: auto;
-        }
-
-        audio {
-            width: 100%;
-            margin-bottom: 12px;
-        }
-
-        .tab-buttons {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 12px;
-        }
-
-        .tab-btn {
-            flex: 1;
-            padding: 12px;
-            border: none;
-            border-radius: 8px;
+            font-size: 28px;
             font-weight: bold;
             cursor: pointer;
         }
 
-            .tab-btn.active {
-                background: #2F9D97;
-                color: white;
-            }
+        .modal-body {
+            padding: 20px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
+
+        audio {
+            width: 100%;
+            margin-bottom: 20px;
+            outline: none;
+        }
 
         .lyrics {
             font-size: 16px;
-            line-height: 1.7;
-            text-align: center;
+            line-height: 1.6;
+            color: #333;
             white-space: pre-line;
-        }
-
-        .pdf-container {
-            height: 65vh;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-
-        .loading {
             text-align: center;
-            padding: 40px;
-            color: #666;
         }
 
-        .erro {
-            color: red;
-            text-align: center;
-            padding: 20px;
-            background: rgba(255,255,255,0.9);
-            border-radius: 8px;
+        /* Ajuste para telas menores (celulares) */
+        @media (max-width: 768px) {
+            .container {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 20px auto;
+            }
         }
     </style>
 </head>
+
 <body>
 
     <div class="container">
-        <h2 class="titulo-lista">Escolha uma Música</h2>
-        <ul id="menu-musicas"></ul>
-        <div id="erro-container"></div>
+        <ul>
+            <li onclick="abrirModal('noe')">NOÉ</li>
+            <li onclick="abrirModal('arca')">A ARCA</li>
+            <li onclick="abrirModal('diluvio')">O DILÚVIO</li>
+            <li onclick="abrirModal('dentro')">DENTRO DA ARCA</li>
+            <li onclick="abrirModal('aguas')">AS ÁGUAS BAIXARAM</li>
+            <li onclick="abrirModal('saindo')">SAINDO DA ARCA</li>
+            <li onclick="abrirModal('alianca')">UMA NOVA ALIANÇA</li>
+        </ul>
     </div>
 
-    <!-- Modal (mantido igual) -->
+    <!-- Estrutura do Popup -->
     <div class="modal-overlay" id="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2 id="modal-title"></h2>
-                <button class="close-btn" onclick="fecharModal()">×</button>
+                <h2 id="modal-title">Título da Música</h2>
+                <button class="close-btn" onclick="fecharModal()">&times;</button>
             </div>
             <div class="modal-body">
-                <audio id="audio-player" controls preload="metadata"></audio>
-
-                <div class="tab-buttons">
-                    <button class="tab-btn active" onclick="showTab(0)">Letra</button>
-                    <button class="tab-btn" onclick="showTab(1)">Partitura (PDF)</button>
-                </div>
-
-                <div id="tab-letra">
-                    <div class="loading" id="loading">Carregando letra...</div>
-                    <div class="lyrics" id="modal-lyrics"></div>
-                </div>
-
-                <div id="tab-pdf" style="display:none;">
-                    <div class="pdf-container">
-                        <iframe id="pdf-iframe"></iframe>
-                    </div>
+                <audio id="audio-player" controls>
+                    Seu navegador não suporta o elemento de áudio.
+                </audio>
+                <div class="lyrics" id="modal-lyrics">
+                    Letra da música aparecerá aqui...
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let musicas = [];
+        // Banco de dados das músicas referenciando arquivos locais
+        const musicas = {
+            'noe': {
+                titulo: "Noé",
+                audioSrc: "noe.mpeg",
+                letra: `Havia um homem na terra temente ao Senhor,
+                            Havia um homem na terra temente ao Senhor;
+                            andava sempre com Deus o criador.
+                            Embora a terra vivesse com violência e desamor
+                            Aprovação ele achou aos olhos de Deus, Senhor.
+                            E Noé Justo e sincero, é Noé Homem de Deus.
+                            E Noé da paz e do amor.
+                            E Noé andando com o Senhor.`
+            },
+            'arca': {
+                titulo: "A Arca",
+                audioSrc: "arca.mpeg",
+                letra: `Faze pra ti uma arca, arca de madeira.
+                            Nela entrarás seguro: é o diluvio que chega!
+                            Faze também a janela e a porta ao lado,
+                            Pois eu já trago o diluvio
+                            Sobre toda a terra.
+                            E toda espécie entrará, macho e fêmea entrará,
+                            E tua família entrará e fecharás a porta da arca conforme eu ordenar!`
+            },
+            'diluvio': {
+                titulo: "O Dilúvio",
+                audioSrc: "diluvio.mpeg",
+                letra: `Entraram na arca como Deus ordenou,
+                            Fecharam a porta como Deus como Deus ordenou (2X)
+                            E a porta por fora o Senhor a fechou.
+                            Entraram na arca como Deus ordenou,
+                            Fecharam a porta como Deus como Deus ordenou
+                            E a porta por fora o Senhor a fechou.
+                            E choveu, choveu forte chuva, choveu.
+                            Quarenta dias sem parar.
+                            E choveu, choveu forte chuva choveu;
+                            E na face da terra nem vida nem lugar pra morar
+                            E na face da terra nem vida nem lugar pra morar`
+            },
+            'dentro': {
+                titulo: "Dentro da Arca",
+                audioSrc: "dentro.mpeg",
+                letra: `Juntinhos, lado a lado, estamos todos reunidos dentro da arca;
+                            Somos os bichos. De dois em dois, como é divertido!
+                            Pode cair água; estamos todos protegidos!`
+            },
+            'aguas': {
+                titulo: "As Águas Baixaram",
+                audioSrc: "aguas.mpeg",
+                letra: `Soprou um vento sobre a terra. Soprou o vento do Senhor. Secou-se a fonte do abismo e a chuva se “aquietou”.
+                            Soprou um vento sobre a terra. Soprou o vento do Senhor. Secou-se a fonte do abismo e a chuva se “aquietou”.
+                            Baixou as águas, secou a terra. Da arca, só o tempo da espera. No bico, a pomba traz certeza da missão e da promessa, vem a salvação!`
+            },
+            'saindo': {
+                titulo: "Saindo da Arca",
+                audioSrc: "saindo.mpeg",
+                letra: `Da arca saindo, Noé, com ele saindo os animais e também sua família vendo tantas maravilhas, doce paz e harmonia, bençãos vindas lá do Pai.
+                            Da arca saindo, Noé, com ele saindo os animais e também sua família vendo tantas maravilhas, doce paz e harmonia, bençãos vindas lá do Pai.
 
-        async function carregarMusicas() {
-            const erroContainer = document.getElementById('erro-container');
-            erroContainer.innerHTML = '';
-
-            try {
-                const resp = await fetch('https://raw.githubusercontent.com/marceloarao/marcadenoe/main/musicas.json', { cache: 'no-store' });
-
-                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-
-                const data = await resp.json();
-                musicas = data.musicas || [];
-
-                if (musicas.length === 0) throw new Error("Nenhuma música encontrada no JSON");
-
-                criarMenu();
-            } catch (e) {
-                console.error(e);
-                erroContainer.innerHTML = `<div class="erro">❌ Não foi possível carregar a lista de músicas.<br>Verifique se o arquivo musicas.json existe no GitHub.</div>`;
+                            E assim Deus ordenou: enche a terra com amor, se espalhe e multiplique cada povo, cada gente, é a benção do Senhor.
+                            E assim ergueu Noé um altar ao seu Senhor, e a Deus ofereceu um sacrifício, um louvor em oração ao Pai de amor! De amor.`
+            },
+            'alianca': {
+                titulo: "Uma Nova Aliança",
+                audioSrc: "alianca.mpeg",
+                letra: `Olhem pra cima e vejam, vocês, quantas cores se formam já. 
+                        É o meu rosto sorrindo outra vez, minha alegria a derramar!
+                        Chuva da graça, paz e perdão; é o arco-íris, é confirmação.
+                        Deixe nascer, sintam essa luz do arco-íris brilhando em cada coração.
+                        Chuva da graça, paz e perdão; é o arco-íris, é confirmação.
+                        Deixe nascer, sintam essa luz do arco-íris brilhando em cada coração.`
             }
-        }
+        };
 
-        function criarMenu() {
-            const ul = document.getElementById('menu-musicas');
-            ul.innerHTML = '';
-            musicas.forEach(m => {
-                const li = document.createElement('li');
-                li.textContent = m.titulo;
-                li.onclick = () => abrirModal(m);
-                ul.appendChild(li);
-            });
-        }
+        const modal = document.getElementById('modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalLyrics = document.getElementById('modal-lyrics');
+        const audioPlayer = document.getElementById('audio-player');
 
-        let currentMusic = null;
+        function abrirModal(idMusica) {
+            const musica = musicas[idMusica];
 
-        async function abrirModal(musica) {
-            currentMusic = musica;
-            document.getElementById('modal-title').textContent = musica.titulo;
-            document.getElementById('audio-player').src = musica.audioSrc;
-            document.getElementById('modal').style.display = 'flex';
-            showTab(0);
+            modalTitle.innerText = musica.titulo;
+            modalLyrics.innerText = musica.letra;
+            audioPlayer.src = musica.audioSrc;
 
-            const loading = document.getElementById('loading');
-            const lyricsEl = document.getElementById('modal-lyrics');
-            loading.style.display = 'block';
-            lyricsEl.style.display = 'none';
-
-            try {
-                const resp = await fetch(musica.lyricsUrl);
-                lyricsEl.textContent = (await resp.text()).trim();
-            } catch (e) {
-                lyricsEl.textContent = "Não foi possível carregar a letra.";
-            } finally {
-                loading.style.display = 'none';
-                lyricsEl.style.display = 'block';
-            }
-        }
-
-        function showTab(n) {
-            document.getElementById('tab-letra').style.display = n === 0 ? 'block' : 'none';
-            document.getElementById('tab-pdf').style.display = n === 1 ? 'block' : 'none';
-            if (n === 1 && currentMusic) {
-                document.getElementById('pdf-iframe').src = currentMusic.pdfUrl;
-            }
+            modal.style.display = 'flex';
         }
 
         function fecharModal() {
-            document.getElementById('modal').style.display = 'none';
-            document.getElementById('audio-player').pause();
-            document.getElementById('pdf-iframe').src = '';
+            modal.style.display = 'none';
+            audioPlayer.pause();
+            audioPlayer.currentTime = 0;
         }
 
-        window.onclick = e => { if (e.target.id === 'modal') fecharModal(); };
-
-        window.onload = carregarMusicas;
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                fecharModal();
+            }
+        }
     </script>
+
 </body>
 </html>
