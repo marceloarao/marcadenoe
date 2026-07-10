@@ -13,36 +13,6 @@
       "audioSrc": "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/audios/arca.mpeg",
       "lyricsUrl": "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/letras/arca.txt",
       "pdfUrl": "https://drive.google.com/file/d/SEU_ID/preview"
-    },
-        'diluvio': {
-            titulo: "O Dilúvio",
-            audioSrc: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/diluvio.mpeg",
-            lyricsUrl: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/diluvio.txt",
-            pdfUrl: "https://drive.google.com/file/d/SEU_ID_DILUVIO/preview"
-        },
-        'dentro': {
-            titulo: "Dentro da Arca",
-            audioSrc: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/dentro.mpeg",
-            lyricsUrl: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/dentro.txt",
-            pdfUrl: "https://drive.google.com/file/d/SEU_ID_DENTRO/preview"
-        },
-        'aguas': {
-            titulo: "As Águas Baixaram",
-            audioSrc: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/aguas.mpeg",
-            lyricsUrl: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/aguas.txt",
-            pdfUrl: "https://drive.google.com/file/d/SEU_ID_AGUAS/preview"
-        },
-        'saindo': {
-            titulo: "Saindo da Arca",
-            audioSrc: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/saindo.mpeg",
-            lyricsUrl: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/saindo.txt",
-            pdfUrl: "https://drive.google.com/file/d/SEU_ID_SAINDO/preview"
-        },
-        'alianca': {
-            titulo: "Uma Nova Aliança",
-            audioSrc: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/alianca.mpeg",
-            lyricsUrl: "https://raw.githubusercontent.com/marceloarao/marcadenoe/main/alianca.txt",
-            pdfUrl: "https://drive.google.com/file/d/SEU_ID_ALIANCA/preview"
-        }
+    }
   ]
 }
